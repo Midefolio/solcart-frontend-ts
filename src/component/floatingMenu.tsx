@@ -5,7 +5,6 @@ const FloatMenu = () => {
     const handleScroll = () => {
       const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
       const triggerHeight = 300; // Adjust this value to your desired scroll point
-     console.log(triggerHeight, scrollPosition)
       if (scrollPosition > triggerHeight) {
         setIsVisible(true);
       } else {
