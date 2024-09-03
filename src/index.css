@@ -57,7 +57,7 @@ nav {
   background-size:contain;
   background-repeat: no-repeat;
   background-image: url(images/5898014022362579411__1_-removebg-preview.png);
-  background-color: #000 !important;
+  /* background-color: #000 !important; */
 }
 .solCart-logo-2 {
   width: 100px;
@@ -65,7 +65,7 @@ nav {
   display: inline-block;
   background-size:contain;
   background-repeat: no-repeat;
-  background-image: url(https://solcart.netlify.app/assets/logo-DQhZNlMo.svg);
+  background-image: url(images/5898014022362579411__1_-removebg-preview.png);
 }
 .catigory-side-bar {
   width: 16%;
