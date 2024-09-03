@@ -3,6 +3,7 @@ import useApi from '../hook/useApi';
 import useUtilsContext from '../hook/useUtilsContext';
 import AccountSetUp from '../pages/user_auth/buyerAuth/account_setUp';
 import { useState } from 'react';
+import useUtils from '../utils/useutils';
 
 interface Props {
   setUseEmail: (useEmail: boolean) => void
@@ -12,18 +13,20 @@ const WithGoogle = ({setUseEmail}: Props) => {
   const { makeRequest } = useApi();
   const { BASE_URL } = useUtilsContext();
   const { setNewUser } = useUtilsContext();
+  const { isSending, notifyError } = useUtils();
   const [setUp, setSetUp] = useState(false)
   const isExist_api = BASE_URL + "userAuth/is-email-exist";
 
 
   const signUp: () => void = useGoogleLogin({
     onSuccess: (tokenResponse) => handleSuccess(tokenResponse) ,
-    onError: () => console.log('Login Failed')
+    onError: () => notifyError('Login Failed')
   });
 
   const handleSuccess = async (response: any) => {
-   const res = await makeRequest('GET', 'https://www.googleapis.com/oauth2/v3/userinfo', null, null, response?.access_token);
-   if(res){
+    isSending(true)
+    const res = await makeRequest('GET', 'https://www.googleapis.com/oauth2/v3/userinfo', null, null, response?.access_token);
+    if(res){
     const isExist = await makeRequest('POST', isExist_api, {email:res.email});
     if(isExist){
       setNewUser((prev: any) => ({
@@ -32,6 +35,7 @@ const WithGoogle = ({setUseEmail}: Props) => {
        lastName:res?.family_name,
        email:res?.email,
       }))
+      isSending(false)
       setSetUp(true)
     }
    }
