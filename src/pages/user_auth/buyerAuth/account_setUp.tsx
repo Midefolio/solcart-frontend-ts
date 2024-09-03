@@ -140,7 +140,7 @@ const AccountSetUp = () => {
                       firstName: e.target.value.replace(/[\s.]/g, ""),
                     }));
                   }}
-                  className="input my-col-11 down-1 xs-11 bg-faded-3 px12 InterLight"
+                  className="input my-col-11 down-1 xs-11 bg-faded-4 px12 InterLight"
                   placeholder="Type here"
                 />
               </div>
@@ -159,7 +159,7 @@ const AccountSetUp = () => {
                       lastName: e.target.value.replace(/[\s.]/g, ""),
                     }));
                   }}
-                  className="input my-col-12 down-1 xs-12 bg-faded-3 px12 InterLight"
+                  className="input my-col-12 down-1 xs-12 bg-faded-4 px12 InterLight"
                   placeholder="Type here"
                 />
               </div>
@@ -230,19 +230,18 @@ const AccountSetUp = () => {
                       password: e.target.value,
                     }));
                   }}
-                  className="input my-col-11 xs-10 bg-faded-3 down-1 ubuntuLight px12"
+                  className="input my-col-11 xs-10 bg-faded-4 down-1 ubuntuLight px12"
                   placeholder="Type password"
                 />
                 <span
-                  className="input xs-2 my-col-1 right bg-faded-3 down-1 ubuntuLight"
-                  style={{ padding: "5px 8px" }}
+                  className="input xs-2 my-col-1 flex unset-indent right bg-faded-4 down-1 ubuntuLight"
                   onClick={() => setSee(!see)}
                 >
                   {see ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                 </span>
               </div>
               <div className="my-col-12 down-3 xs-down-7 xs-12 xs-down-7 down-5">
-                <ReactPasswordChecklist
+                {password?.length > 0 && <ReactPasswordChecklist
                   rules={["minLength", "specialChar", "number", "capital"]}
                   minLength={8}
                   value={password}
@@ -253,14 +252,15 @@ const AccountSetUp = () => {
                     number: "At least 1 number",
                     capital: "At least 1 capital letter",
                   }}
-                />
+                /> }
+                
               </div>
-              <div className="my-col-11 down-7 my-mother xs-down-10">
+              <div className="my-col-12 down-7 my-mother xs-down-10">
                 <button
                   onClick={finishSetUp}
-                  className="btn bg-dark full-width ubuntuBold text-white"
+                  className="input bg-img xs-5 my-col-3 fl-right flex unset-indent white rad-10 ubuntuBold text-white"
                 >
-                  Set Up Account
+                  Finish SetUp
                 </button>
               </div>
             </div>
