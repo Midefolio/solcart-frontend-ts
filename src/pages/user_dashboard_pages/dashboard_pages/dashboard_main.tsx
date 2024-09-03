@@ -13,7 +13,7 @@ const DashMain = () => {
   const [searchParams] = useSearchParams();
   const query: any = searchParams.get("p");
   const navigate = useNavigate();
-  const { setCurrentUser, user } = useUserAuthContext();
+  const { currentUser, setCurrentUser, user } = useUserAuthContext();
   const { BASE_URL } = useUtilsContext();
   const { isSending } = useUtils();
   const { makeRequest } = useApi();
@@ -61,15 +61,15 @@ const DashMain = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (!currentUser && user) {
       getCurrentUser();
     }
-  }, [user]);
+  }, [user, currentUser]);
 
   return (
     <>
       <UserDasNav />
-      {active === "Items" && query === "items-for-sale" && <MyItems/>}
+      {active === "Items" && query === "items-for-sale" && <MyItems />}
       {active === "Items" && query === "post-item" && <PostItem />}
     </>
   );
