@@ -12,7 +12,7 @@ const WithGoogle = ({setUseEmail}: Props) => {
   const { makeRequest } = useApi();
   const { BASE_URL } = useUtilsContext();
   const { setNewUser } = useUtilsContext();
-  const [setUp, setSetUp] = useState(true)
+  const [setUp, setSetUp] = useState(false)
   const isExist_api = BASE_URL + "userAuth/is-email-exist";
 
 

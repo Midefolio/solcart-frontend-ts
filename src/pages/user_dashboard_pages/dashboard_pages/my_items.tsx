@@ -104,7 +104,7 @@ const MyItems = () => {
                                             <div className="my-col-9 xs-9">
                                                 <div className="my-container xs-down-3 xs-container">
                                                     <div>
-                                                        <span className="px12 xs-px12 color-code-1 ubuntuBold">
+                                                        <span className="px12 xs-px12 ubuntuBold">
                                                             {item.title?.slice(0, 20)}...
                                                         </span>{" "}
                                                         <span className="pd-5 xs-px8 rad-30 ubuntuBold bg-color-code-3 color-code-1">
