@@ -1,11 +1,13 @@
 import { AiOutlineBars } from "react-icons/ai";
 import {solCatCategories} from "../data/category";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CatSideBar = () => {
   const catData = solCatCategories;
   const [openSubCat, setSubCat] = useState<any>(null);
   const [, setSubCatWeb] = useState<any>(null);
+  const Navigate = useNavigate();
   // console.log(catData)
     return ( <>
     <div className="catigory-side-bar bg-white">
@@ -51,7 +53,9 @@ const CatSideBar = () => {
 
 
 
-       <span className="input-1 hidden-xs down-1 flex unset-indent white c-pointer my-col-10 off-1 bg-color-code-1">Sell On SolCart</span>
+       <span  onClick={() => {
+                Navigate("/profile/Items?p=post-item");
+              }} className="input-1 hidden-xs down-1 flex unset-indent white c-pointer my-col-10 off-1 bg-color-code-1">Sell On SolCart</span>
     </div>
     </> );
 }

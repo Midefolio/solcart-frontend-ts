@@ -17,14 +17,10 @@ import BuyerLogin from "./pages/user_auth/buyerAuth/log_in";
 
 const App = () => {
   const { user } = useUserAuthContext();
-  const active = localStorage.getItem("solCart-active") || "main";
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route
-          path="/"
-          element={!user ? <Home /> : <Navigate to={`/profile/${active}`} />}
-        />
+        <Route path="/" element={ <Home/>}/>
         <Route path="/login" element={<BuyerLogin />} />
         <Route path="/items/:itemId" element={<ViewItem />} />
         <Route path="/registration" element={<BuyerSignUp />} />

@@ -453,21 +453,21 @@ const solCatCategories = [
     { 
       menu: "Orders",
       types: [
-        { name: "My Orders",  url:"orders?p=my-orders", icon: "fas fa-list" }, // List icon
-        { name: "Customers Order", url:"orders?p=my-customers-order", icon: "fas fa-user-tag" } // User Tag icon
+        { name: "My Orders",  url:"/profile/orders?p=my-orders", icon: "fas fa-list" }, // List icon
+        { name: "Customers Order", url:"/profile/orders?p=my-customers-order", icon: "fas fa-user-tag" } // User Tag icon
       ],
       icon: "fas fa-shopping-cart",
-      url:"orders?p=my-orders" // Shopping Cart icon
+      url:"profile/orders?p=my-orders" // Shopping Cart icon
     },
     { 
       menu: "Items",
       types: [
-        { name: "Items For Sale", url: "Items?p=items-for-sale", icon: "fas fa-tags" }, // Tags icon
-        { name: "Saved Items", url: "Items?p=saved-items", icon: "fas fa-bookmark" }, // Bookmark icon
-        { name: "Post Item", url: "Items?p=post-item", icon: "fas fa-plus" } // Upload icon
+        { name: "Items For Sale", url: "/profile/Items?p=items-for-sale", icon: "fas fa-tags" }, // Tags icon
+        { name: "Saved Items", url: "/profile/Items?p=saved-items", icon: "fas fa-bookmark" }, // Bookmark icon
+        { name: "Post Item", url: "/profile/Items?p=post-item", icon: "fas fa-plus" } // Upload icon
       ],
       icon: "fas fa-box",
-      url: "Items?p=items-for-sale" // Package icon
+      url: "/profile/Items?p=items-for-sale" // Package icon
     },
     { 
       menu: "Call Requests",
@@ -479,16 +479,33 @@ const solCatCategories = [
       menu: "Messages",
       types: [],
       icon: "fas fa-envelope",
-      url: "messages" // Envelope icon
+      url: "/profile/messages" // Envelope icon
     },
     { 
       menu: "Market Place",
       types: [],
       icon: "fas fa-store" ,
-      url: "market-place"// Store icon
+      url: "/"// Store icon
     }
   ];
   
+  const homePageMenu = [
+    { 
+      menu: "From factory",
+      icon: "fas fa-store" ,
+      url: "/"// Store icon
+    },
+    { 
+      menu: "New Items",
+      icon: "fas fa-store" ,
+      url: "/"// Store icon
+    },
+    { 
+      menu: "Fairly Used",
+      icon: "fas fa-store" ,
+      url: "/"// Store icon
+    }
+  ]
   
 
 
@@ -518,7 +535,7 @@ const solCatCategories = [
     getSubCategory,
     getTypes,
     DashboardMenu,
-    getSubCatTypes
-    
+    getSubCatTypes,
+    homePageMenu
 
   } ;

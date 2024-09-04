@@ -1,5 +1,6 @@
 import {
   AiOutlineBars,
+  AiOutlineLogout,
   AiOutlineSetting,
   AiOutlineUser,
 } from "react-icons/ai";
@@ -10,24 +11,38 @@ import useUtilsContext from "../../../hook/useUtilsContext";
 import ReactCountryFlag from 'react-country-flag';
 import { useState } from "react";
 import SwithCountry from "../../../component/country_swith";
+import useUserAuthContext from "../../../hook/userUserAuthContext";
 
 const UserDasNav = () => {
   const Navigate = useNavigate();
   const { country } = useUtilsContext();
+  const { dispatch } = useUserAuthContext();
   const [switchCountry, setSwitchCountry] = useState(false)
   const [openMsideBar, setOpenMSideBar] = useState(false);
 
   const switchPageHandler = (url: any) => {
     localStorage.setItem("solCart-active", url);
-    Navigate(`/profile/${url}`);
+    Navigate(`${url}`);
   };
+
+  const logout =()=> {
+    const confirm = window.confirm(" Are you sure you want to logout");
+    if(!confirm){return}
+    localStorage.removeItem("solCart_JWT");
+    localStorage.removeItem("solCart-active");
+    localStorage.removeItem("solCart-email");
+    dispatch({ type: "LOGOUT" });
+    Navigate(`/`);
+  }
 
   return (
     <>
       <div className="dash-nav hidden-xs shadow">
         <div className="my-container down-1">
           <div className="my-col-3">
-            <span className="solCart-logo"></span>
+            <span  onClick={() => {
+                Navigate("/");
+              }} className="solCart-logo"></span>
           </div>
           <div className="my-col-9 right">
             <span
@@ -39,13 +54,7 @@ const UserDasNav = () => {
               Sell Something
             </span>
             <span className="icons bg-faded-4 mg-20">
-              <AiOutlineUser />
-            </span>
-            <span className="icons bg-faded-4 mg-20">
-              <AiOutlineSetting />
-            </span>
-            <span className="icons bg-faded-4 mg-20">
-              <CiLocationOn />
+              <AiOutlineLogout title="logout" onClick={logout} />
             </span>
           </div>
         </div>
@@ -115,7 +124,9 @@ const UserDasNav = () => {
         <div className="xs-container xs-down-4">
           <div onClick={() => {setOpenMSideBar(true)}} className="xs-1 xs-down-1 px20"><i className="fas fa-bars"></i></div>
           <div className="xs-3">
-            <span className="mg-10 solCart-logo-2"></span>
+            <span onClick={() => {
+             Navigate("/");
+           }} className="mg-10 solCart-logo-2"></span>
           </div>
           <div className="xs-8">
             <span  onClick={() => {
@@ -141,7 +152,9 @@ const UserDasNav = () => {
           </div>
           <div className="xs-3 centered unset-indent">
            <div className="xs-12"> <i className="faded-sol fa fa-shop"></i></div>
-           <div className="xs-12 xs-top-3"><span className="px10 ubuntuLight">Market Place</span></div>
+           <div className="xs-12 xs-top-3"  onClick={() => {
+                Navigate("/");
+              }}><span className="px10 ubuntuLight">Market Place</span></div>
           </div>
         </div>
       </div>
@@ -222,6 +235,10 @@ const UserDasNav = () => {
               <span className="fl-right pd-10 xs-top-5">
                <span className="mg-10 px10 ubuntuBold">Light</span>
               </span>
+            </div>
+            <div className="my-mother xs-down-15" onClick={logout}>
+              <span className="px12 ubuntuBold faded-sol xs-1 xs-down-"> <AiOutlineLogout /> </span>
+              <span className="px13 ubuntuBold faded-sol xs-top-1 xs-10">Logout </span>
             </div>
           </div>
          </div>

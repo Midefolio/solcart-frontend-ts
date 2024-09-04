@@ -24,7 +24,7 @@ const WithGoogle = ({setUseEmail}: Props) => {
   });
 
   const handleSuccess = async (response: any) => {
-    isSending(true)
+    isSending(true, "Please waitihg...")
     const res = await makeRequest('GET', 'https://www.googleapis.com/oauth2/v3/userinfo', null, null, response?.access_token);
     if(res){
     const isExist = await makeRequest('POST', isExist_api, {email:res.email});

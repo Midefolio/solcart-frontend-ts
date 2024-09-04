@@ -58,12 +58,12 @@ const MyItems = () => {
 
     return (
         <>
-            <div className="my-col-10 off-2 xs-container xs-down-9vh">
-                <div className="my-container down-10 xs-container bg-white rad-10 my-bottom-50 xs-down-10">
-                    <div className="my-col-10 off-1 xs-10 xs-off-1 xs-down-5 down-3">
+            <div className="my-col-10 off-2 xs-12 xs-down-9vh">
+                <div className="my-container down-10 xs-container bg-wite rad-10 my-bottom-50 xs-down-">
+                    <div className="my-col-10 off-1 xs-container xs-down-5 down-3">
                         <span className="px20 xs-px15 ubuntuBold">My Items</span>
                     </div>
-                    <div className="my-col-10 xs-container xs-down-3 off-1 down-3 faded-sol ubuntuBold bd-bottom my-bottom-10 my-items-links">
+                    <div className="my-col-10 xs-container xs-down-5 off-1 down-3 faded-sol ubuntuBold bd-bottom my-bottom-10 my-items-links">
                         <span
                             className={actv === 'review' ? "actv orange" : ""}
                             onClick={() => handleClick('review', 'in-review')}
@@ -89,8 +89,8 @@ const MyItems = () => {
                          Suspended
                         </span>
                     </div>
-                    <div className="my-col-10 off-1 xs-container xs-down-1 down-3">
                         {!items && <CustomSkeleton />}
+                    <div className="my-col-10 off-1 xs-container xs-down-1 down-3">
                         {items?.length > 0 && (
                             <>
                                 {items.map((item: any, index: number) => (

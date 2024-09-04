@@ -86,7 +86,7 @@ const BuyerLogin = () => {
             <div className="my-mother down-1 px13 ubuntuLight faded-sol">
               <span>Shoping on solana has never been more easy</span>
             </div>
-            <div className="my-mother down-5 xs-down-10">
+            <div className="my-mother down-5 xs-down-5">
               <div className="my-mother">
                 <span className="px12 ubuntuBold">Email</span>
               </div>
