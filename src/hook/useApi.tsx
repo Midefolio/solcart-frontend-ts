@@ -21,7 +21,16 @@ interface UseApiReturn {
 
 const useApi = (): UseApiReturn => {
  const { notifyError } = useUtils();
-  const makeRequest = async <T = any>(
+
+const logout = () => {
+  localStorage.removeItem("solCart_JWT");
+  localStorage.removeItem("solCart-active");
+  localStorage.removeItem("solCart-email");
+  window.location.href = '/registration'; // Reload the current page
+};
+
+
+const makeRequest = async <T = any>(
     method: RequestMethod,
     api: string,
     params?: Params,
@@ -55,6 +64,10 @@ const useApi = (): UseApiReturn => {
           notifyError("Could not connect to the Server. Could be your network. Check and try again")
         }
         const errorRes = error.response?.data;
+        if (errorRes?.error === 'jwt expired') {
+          logout()
+          notifyError("session expired: please re-login");
+        }
         if (errorRes) {notifyError(errorRes.error)}
       } else {
         notifyError(`Unexpected error: ${error}`);

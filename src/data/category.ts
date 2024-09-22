@@ -448,7 +448,7 @@ const solCatCategories = [
       menu: "My Balance",
       types: [],
       icon: "fas fa-wallet", // Wallet icon
-      url:"main"
+      url:"/profile/main"
     },
     { 
       menu: "Orders",
@@ -457,7 +457,7 @@ const solCatCategories = [
         { name: "Customers Order", url:"/profile/orders?p=my-customers-order", icon: "fas fa-user-tag" } // User Tag icon
       ],
       icon: "fas fa-shopping-cart",
-      url:"profile/orders?p=my-orders" // Shopping Cart icon
+      url:"/profile/orders?p=my-orders" // Shopping Cart icon
     },
     { 
       menu: "Items",

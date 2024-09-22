@@ -1,4 +1,4 @@
-import { AiOutlineSearch, AiOutlineSun, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineDashboard, AiOutlineExport, AiOutlineLogout, AiOutlineSearch, AiOutlineShoppingCart, AiOutlineSun, AiOutlineUser, AiOutlineWallet } from "react-icons/ai";
 import { HiBars3 } from "react-icons/hi2";
 import countryList from "react-select-country-list";
 import ReactCountryFlag from "react-country-flag";
@@ -11,6 +11,8 @@ import CatSideBar from "./categorySideBar";
 import { useState } from "react";
 import SwithCountry from "./country_swith";
 import useUserAuthContext from "../hook/userUserAuthContext";
+import SolCart from "./sol_cart";
+import Exchange from "./exchange";
 
 export interface navBarProps {
   active: string;
@@ -20,10 +22,22 @@ const height = 35;
 const NavBar = () => {
   const code: any = countryList().getData();
   const navigate = useNavigate();
-  const { country, setCountry } = useUtilsContext();
+  const { country, setCountry, cart, openCart, setOpenCart } = useUtilsContext();
   const [openMsideBar, setOpenMSideBar] = useState(false);
   const [switchCountry, setSwitchCountry] = useState(false);
-  const { user } = useUserAuthContext();
+  const { user, dispatch, currentUser, setCurrentUser } = useUserAuthContext();
+  const [buyUsdc, setBuyUsdc] = useState(false)
+
+  const logout =()=> {
+    const confirm = window.confirm(" Are you sure you want to logout");
+    if(!confirm){return}
+    localStorage.removeItem("solCart_JWT");
+    localStorage.removeItem("solCart-active");
+    localStorage.removeItem("solCart-email");
+    setCurrentUser(null)
+    dispatch({ type: "LOGOUT" });
+    navigate(`/`);
+  }
 
   const MenuList = (props: any) => {
     const { options, children, maxHeight, getValue } = props;
@@ -48,18 +62,13 @@ const NavBar = () => {
 
   return (
     <>
+      {openCart && <SolCart/>}
+      {buyUsdc && <Exchange setBuyUsdc={setBuyUsdc}/>}
       <nav className="hidden-xs">
-        <div className="my-container ">
-          <div
-            className="my-col-2"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            <div className="solCart-logo"></div>
-          </div>
-          <div className="my-col-4">
-            <div className="my-mother pd-10 bg-faded-4 rad-30">
+        <div className="my-container gap-20">
+           <div><div className="solCart-logo down-2"  onClick={() => {navigate("/")}}></div></div>  
+          <div className="my-col-3  off-1">
+            <div className="my-mother down-1 pd-10 bg-faded-4 rad-30">
               <input
                 type="text"
                 placeholder="Search for something"
@@ -70,24 +79,14 @@ const NavBar = () => {
               </span>
             </div>
           </div>
-          <div className="my-col-5 off-1">
-            <div className="my-col-11 off-1">
-              <div
-                className="centeed down-1 my-col-3 mg-5 auth rad-30 c-pointer"
-                title="Country / Language"
-              >
-                <div className="InterLight px13">
-                  Country <i className="fas mg-5 fa-angle-down"></i>
-                </div>
-                <div className="my-mother top-1">
-                  <span className="country-flag ">
-                    <ReactCountryFlag countryCode={country?.value} svg />
-                  </span>
-                  <span className="mg-10 px13 ubuntuBold">
-                    {country?.label?.slice(0, 10)}
-                  </span>
-                </div>
-                <div className="nav-extended-2">
+          <div className="my-col-5 gap-20">
+            <div className="auth my-col-4 down-2 country c-pointer">
+              <span className="px13 faded-sol">Location <i className="fas fa-angle-down"></i></span>
+              <div className="ubuntuBold top-1 gap-elements">
+                <span className="country-flag top-2"><ReactCountryFlag countryCode={country?.value} svg /></span>
+                <span className="px12">{country?.label?.slice(0, 10) +  "..."}</span>
+              </div>
+              <div className="nav-extended-2">
                   <div className="my-col-10 off-1">
                     <Select
                       name="basic-select"
@@ -99,33 +98,44 @@ const NavBar = () => {
                       components={{ MenuList }}
                     />
                   </div>
-                </div>
               </div>
-              <div className="bg-fade-4 down-3 my-col-4 auth rad-30 c-pointer">
+            </div>
+            <div className="my-col-5 down-2 auth rad-30 c-pointer">
                 {user ? (
-                  <span
-                    onClick={() => {
-                      navigate("/profile/Items?p=post-item");
-                    }}
-                    className="pd-10 bg-img rad-10 top-4 ubuntuBold white px13 mg-20"
-                  >
-                    Sell Something
-                  </span>
+                 <>
+                  <span className="px13 faded-sol">Welcome</span>
+                  <div className="top-1 px12 ubuntuBold">
+                   <span> {currentUser?.firstName}</span>
+                   <span className="upper-case"> {currentUser?.lastName.slice(0,1)}..</span>
+                  </div>
+                  <div className="shadow top-1 bg-white nav-extended">
+                    <div className="my-col-10 off-1 down-5">
+                     <div className="gap-elements pd-10 bd-bottom" onClick={()=> { navigate("/profile/main");}}>
+                       <span className="down-1 color-code-1"><AiOutlineDashboard className=""/></span>
+                       <span className="px13 faded-sol">My Dashboard</span>
+                     </div>
+                     <div className="gap-elements pd-10 bd-bottom" onClick={()=> { navigate("/profile/Items?p=post-item");}}>
+                       <span className="down-1 color-code-1"><AiOutlineExport/></span>
+                       <span className="px13 faded-sol">Sell Something</span>
+                     </div>
+                     <div className="gap-elements pd-10 bd-bottom" onClick={logout}>
+                       <span className="down-1 color-code-1"><AiOutlineLogout/></span>
+                       <span className="px13 faded-sol">Logout</span>
+                     </div>
+                    </div>
+                  </div>
+                 </>
                 ) : (
                   <>
-                    {" "}
-                    <div className="my-col-2 off-2">
-                      <AiOutlineUser className="px20" />
-                    </div>
-                    <div className="my-col-8 top-5">
+                    <div className="my-col-8">
                       <div>
-                        <span className="InterLight px13">
+                        <span className="px13 faded-sol">
                           Welcome{" "}
-                          <i className="fas fa-angle-down mg-5 px10 "></i>
+                          <i className="fas fa-angle-down"></i>
                         </span>
                       </div>
                       <div className="my-mother top-4">
-                        <span className="ubuntuBold px13">
+                        <span className="ubuntuBold px12">
                           Register / Sign-in
                         </span>
                       </div>
@@ -133,7 +143,7 @@ const NavBar = () => {
                     <div className="shadow bg-white nav-extended">
                       <div className="my-col-10 off-1 bd-bottom down-10">
                         <div
-                          className="input-1 px12 ubuntuLight"
+                          className="input-1 px12"
                           onClick={() => {
                             navigate("/registration");
                           }}
@@ -152,35 +162,21 @@ const NavBar = () => {
                   </>
                 )}
               </div>
-
-              <div className="my-col-4 right down-3 c-pointer">
-                <span className="pd-10 color-code-1" title="Solana Cart">
-                  <BsBag className="px20" />
+              <div onClick={()=> {setBuyUsdc(true)}} className="down-3 ubuntuBold px13 bg-img white my-col-4 c-pointer my-b-shaow rad-30 input-1 flex unset-indent gap-elements"><i className="fas fa-plus px12"/> USDC TopUp </div>
+              <div className="my-col-4 gap-20 down-2 c-pointer">
+                <span className="pd-10 color-code-1" onClick={()=> {user? setOpenCart(true): navigate('/registration')}} title="Solana Cart">
+                  <AiOutlineShoppingCart className="px20" />
+                  {cart?.length > 0 &&
                   <sup className="pd-5 rad-30 bg-color-code-1 white InterSemiBold">
-                    10
-                  </sup>
-                </span>
-                <span className="mg-20 color-code-1" title="Login">
-                  {/* <span>Login</span> */}
-                  {user && (
-                    <span
-                      onClick={() => {
-                        navigate("/profile/main");
-                      }}
-                      className="icons xs-down-10 top-1 bg-img rad-30 white px13 upper-case ubuntuBold"
-                    >
-                      <AiOutlineUser />
-                    </span>
-                  )}
+                  {cart?.length}
+                </sup>
+                  }
                 </span>
               </div>
-            </div>
           </div>
         </div>
       </nav>
-
       {/* mobile navigation header */}
-
       <div className="mobile-nav hidden-ls">
         <div className="xs-container xs-down-2">
           <span

@@ -20,11 +20,14 @@ interface UtilsContextProviderProps {
 const UtilsContextProvider: React.FC<UtilsContextProviderProps> = ({
   children,
 }) => {
-  // const BASE_URL = "http://192.168.1.213:4000/api/v1/";
-  const BASE_URL = "https://solcart-backend-ts.onrender.com/api/v1/";
+  const BASE_URL = "http://localhost:4000/api/v1/";
+  // const BASE_URL = "https://solcart-backend-ts.onrender.com/api/v1/";
   const { makeRequest } = useApi();
   const [country, setCountry] = useState<any>(null);
-  const [conv, setConv] = useState<any>(0)
+  const [conv, setConv] = useState<any>(0);
+  const [cart, setCart] = useState<any[]>([]);
+  const [openCart, setOpenCart] = useState<boolean>(false)
+  const [cartTotalPrice, setCartTotalPrice] = useState<number>(0);
   const [newUser, setNewUser] = useState({
     email: "",
     firstName: "",
@@ -60,13 +63,20 @@ const UtilsContextProvider: React.FC<UtilsContextProviderProps> = ({
   useEffect(() => {
     getCountryCode();
   }, []);
-
   
   useEffect(() => {
-    if(country){
-      getSolPrice();
+    let interval: any;
+  
+    if (country) {
+      getSolPrice(); // Initial call
+      interval = setInterval(() => {
+        getSolPrice(); // Run every 30 seconds
+      }, 30000); // 30000 ms = 30 seconds
     }
-  }, [country?.currency]);
+  
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, [country?.currency]); // Run this effect when `country?.currency` changes
+  
 
   return (
     <UtilsContext.Provider
@@ -76,7 +86,10 @@ const UtilsContextProvider: React.FC<UtilsContextProviderProps> = ({
         setCountry,
         newUser,
         setNewUser,
-        conv
+        conv,
+        cart, setCart,
+        openCart, setOpenCart,
+        cartTotalPrice, setCartTotalPrice,
       }}
     >
       {children}

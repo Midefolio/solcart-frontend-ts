@@ -318,6 +318,9 @@
    .hidden-ls{
      display: none !important; 
    } 
+   .ls-my-bottom-10 {
+    padding-bottom: 10px;
+   }
    .ls-h-100vh {
     height: 100vh !important;
   }

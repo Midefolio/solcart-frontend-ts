@@ -24,6 +24,7 @@ const App = () => {
         <Route path="/login" element={<BuyerLogin />} />
         <Route path="/items/:itemId" element={<ViewItem />} />
         <Route path="/registration" element={<BuyerSignUp />} />
+        <Route path="/registration" element={<BuyerSignUp />} />
         <Route
           path="/profile/:active"
           element={user ? <DashMain /> : <Navigate to="/" />}

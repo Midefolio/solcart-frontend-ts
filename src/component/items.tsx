@@ -1,27 +1,47 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import { MdVerified } from "react-icons/md";
 import { FaShippingFast } from "react-icons/fa";
+import useUtilsContext from "../hook/useUtilsContext";
+import useUtils from "../utils/useutils";
 
-const Items = () => {
+const Items = ({i}: any) => {
+  const { conv } = useUtilsContext();
+  const { timeAgo } = useUtils();
+  const formatUSDC = (amount: number): string => {
+    return new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4,
+    }).format(amount);
+};
+
+const convToSolana = () => {
+    const usdcValue = parseFloat(i?.base_price?.replace(/,/g, '')) * conv;
+    const formattedUSDC = formatUSDC(usdcValue);
+    return formattedUSDC;
+}
+
+
     return ( <>
-      <div className="my-col-3 xs-12 down-1 xs-down-1">
-      <div className="my-col-11 xs-12 bg-white rad-10">
+      <div className="xs-12 my-col-3 xs-down-1">
+      <div className="my-container xs-12 items-hover bg-white rad-10">
         <div className="xs-mg-10 xs-3 my-col-12 xs-down-3 my-bottom-10">
-          <div className="img-container-product"><img src="https://img.freepik.com/free-psd/mobile-phone-with-selfie-stick-mock-up_1310-124.jpg?t=st=1723600637~exp=1723604237~hmac=d6c06da91be98bbe3cbdd0f34917e0a4241b3ce4d310219bad06c9d57b6bec6a&w=740" alt="" /> </div>
+          <div className="img-container-product"><img src={i?.images[0].secure_url} alt="" /> </div>
         </div>
-        <div className="my-container xs-8 top-3">
+        <div className="my-container xs-9 top-3">
           <div className="xs-container">
-              {/* <span className="add-to-cart-btn"><BsBag/></span> */}
-           <div className="my-mother down-2 xs-down-5"><span className="px13 InterSemiBold">3 gig ram teckno phone for sale..</span></div>
-           <div className="my-mother xs-down-">
-            <span className="px12 faded-sol InterSemiBold">Ayomide Ab </span>
-            <MdVerified className="color-code-1" />
-           </div>
-           <div className="my-mother xs-down-3"><span className="token-image"/>
-            <span className="px10 mg-5 InterSemiBold">140 <span className="faded-sol">USDC </span> <span className="faded-sol px10">|</span></span>
-            <span className="faded-sol mg-5 InterSemiBold px10">2d ago  <span className="faded-sol px10">|</span></span>
-            <span className="green InterSemiBold pd-5 bg-color-code-3 rad-30 color-code-1 px10 mg-5">free <FaShippingFast/></span>
-            <span className="fl-right pd-5 c-pointer"><AiOutlineHeart/></span>
+           <div className="my-mother down-2 xs-down-5"><span className="px13 ubuntuBold">{i?.title?.slice(0, 30)}{".."}</span></div>
+           <div className="my-mother ls-my-bottom-10 xs-down-1 top-1">
+            <div><span className="token-image"/>
+            <span className="px12 mg-2 ubuntuBold">{convToSolana()} <span className="faded-sol ubuntuBold">USDC </span> <span className="faded-sol px10"></span></span>
+            {i?.condition == 'New' ? 
+            <span className="green ubuntuBold pd-5 bg-color-code-3 rad-30 color-code-1 px8 xs-px10 mg-5">{i?.condition}</span>
+            :
+            <span className="green ubuntuBold pd-5 bg-color-code-2 green rad-30 color-ode-1 px10 mg-5">{i?.condition}</span>
+            }
+            {/* <span className="mg-5 InterSemiBold px10 faded-sol hidden-xs">{timeAgo(i?.createdAt)}</span> */}
+            </div>
+            <span className="faded-sol xs-6 InterSemiBold px10 xs-down-3 xs-px12 hidden-s"> {timeAgo(i?.createdAt)} <span className="faded-sol px10"></span></span>
+            <span className="right xs-6 hidden-ls"><AiOutlineHeart className="pd-5 color-code-1 px20 fl-right" title="save this item for later"/></span>
           </div>
           </div>
         </div>

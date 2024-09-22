@@ -150,12 +150,12 @@ const BuyerLogin = () => {
                 Company Sign In
               </span>
               <span
-                className="faded-sol px12 c-pointer fl-right"
+                className="faded-sol px13 c-pointer fl-right"
                 onClick={() => {
                   Navigate("/registration");
                 }}
               >
-                signup instead <i className="fas fa-arrow-right mg-5"></i>
+                Sign Up <i className="fas fa-arrow-right mg-5"></i>
               </span>
             </div>
           </div>

@@ -51,7 +51,7 @@ const MyItems = () => {
         const res = await makeRequest("POST", delete_item_api, { item_id }, () => isSending(false), user);
         if (res) {
             isSending(false);
-            getItems();
+            setItems((prevItems: any) => prevItems?.filter((item: any) => item._id !== item_id));
             notifySuccess("Item deleted successfully");
         }
     };
@@ -89,13 +89,13 @@ const MyItems = () => {
                          Suspended
                         </span>
                     </div>
-                        {!items && <CustomSkeleton />}
-                    <div className="my-col-10 off-1 xs-container xs-down-1 down-3">
+                        {!items && <div className="my-col-10 off-1 down-5"><CustomSkeleton /></div> }
+                    <div className="my-col-10 off-1 xs-container xs-down-3 down-3">
                         {items?.length > 0 && (
                             <>
                                 {items.map((item: any, index: number) => (
-                                    <div className="my-col-4 xs-down-5 shadow xs-12 down-1" key={index}>
-                                        <div className="my-col-11 xs-12 my-b-shad w bg-white rad-10">
+                                    <div className="my-col-4 xs-down-1 xs-12 down-1" key={index}>
+                                        <div className="my-col-11 xs-12 bg-white rad-10">
                                             <div className="my-col-3 xs-3 xs-down-1">
                                                 <div className="img-container-2">
                                                     <img src={item.images[0]?.secure_url} alt={item.title} />
@@ -107,7 +107,7 @@ const MyItems = () => {
                                                         <span className="px12 xs-px12 ubuntuBold">
                                                             {item.title?.slice(0, 20)}...
                                                         </span>{" "}
-                                                        <span className="pd-5 xs-px8 rad-30 ubuntuBold bg-color-code-3 color-code-1">
+                                                        <span className="pd-5 xs-px8 px8 rad-30 ubuntuBold bg-color-code-3 color-code-1">
                                                             {item.condition}
                                                         </span>
                                                     </div>
@@ -115,7 +115,7 @@ const MyItems = () => {
                                                         <span className="px12 xs-px10 ubuntuLight orange">
                                                             {item.deployment_status} <i className="fas px10 fa-spinner orange"></i>
                                                         </span>
-                                                        <span className="faded-sol pd-5 rad-30 mg-5 px10 ubuntuBold bg-color-code-3 xs-px8 color-code-1">
+                                                        <span className="faded-sol pd-5 rad-30 mg-5 xs-px8 px8 ubuntuBold bg-color-code-3 xs-px8 color-code-1">
                                                             within 10hrs max
                                                         </span>
                                                     </div>

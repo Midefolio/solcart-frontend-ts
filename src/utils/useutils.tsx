@@ -233,6 +233,40 @@ const useUtils = () => {
     }
    }
   
+   const timeAgo = (createdAt: Date): string => {
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - new Date(createdAt).getTime()) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) {
+        return interval === 1 ? "1 yr ago" : `${interval} yrs ago`;
+    }
+    
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+        return interval === 1 ? "1 m ago" : `${interval} ms ago`;
+    }
+
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+        return interval === 1 ? "1 d ago" : `${interval}ds ago`;
+    }
+
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+        return interval === 1 ? "1 hr ago" : `${interval} hrs ago`;
+    }
+
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+        return interval === 1 ? "1 min ago" : `${interval} mins ago`;
+    }
+
+    return seconds < 10 ? "Just Now" : `${seconds} s ago`;
+};
+
+
+
 
   return {
     isSending,
@@ -246,7 +280,8 @@ const useUtils = () => {
     truncateString,
     notifySuccess,
     notifyError,
-    clickHandler
+    clickHandler,
+    timeAgo
   };
 };
 

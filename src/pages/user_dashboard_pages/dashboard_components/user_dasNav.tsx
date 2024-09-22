@@ -17,7 +17,8 @@ const UserDasNav = () => {
   const Navigate = useNavigate();
   const { country } = useUtilsContext();
   const { dispatch } = useUserAuthContext();
-  const [switchCountry, setSwitchCountry] = useState(false)
+  const [switchCountry, setSwitchCountry] = useState(false);
+  const { setCurrentUser } = useUserAuthContext();
   const [openMsideBar, setOpenMSideBar] = useState(false);
 
   const switchPageHandler = (url: any) => {
@@ -31,6 +32,7 @@ const UserDasNav = () => {
     localStorage.removeItem("solCart_JWT");
     localStorage.removeItem("solCart-active");
     localStorage.removeItem("solCart-email");
+    setCurrentUser(null)
     dispatch({ type: "LOGOUT" });
     Navigate(`/`);
   }
@@ -53,8 +55,8 @@ const UserDasNav = () => {
             >
               Sell Something
             </span>
-            <span className="icons bg-faded-4 mg-20">
-              <AiOutlineLogout title="logout" onClick={logout} />
+            <span onClick={logout} className="icons bg-faded-4 mg-20">
+              <AiOutlineLogout title="logout"  />
             </span>
           </div>
         </div>
@@ -62,7 +64,7 @@ const UserDasNav = () => {
 
       {/* side nav */}
 
-      <div className="dash-side-nav shadow hidden-xs">
+      <div className="dash-side-nav shaw hidden-xs">
         <div className="my-container down-5">
           <div className="my-container my-bottom-5 bd-botom down-10">
             <span className="my-col-2 px20">

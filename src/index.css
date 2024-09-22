@@ -35,17 +35,16 @@ body, html {
   overflow-x: hidden;
   color:#021c44;
   background-color:#F4F7FA !important;
-  /* font-family:ubuntuRegular !important; */
-  font-family:InterRegular;
+  font-family:ubuntuRegular !important;
 }
 nav {
   width: 100%;
   display: inline-flex;
   position: fixed;
-  height: 100px;
+  height: 70px;
   top: 0;
   z-index: 10;
-  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1); */
   align-items: center;
   /* padding-bottom: 10px; */
   background-color: #fff;
@@ -75,7 +74,7 @@ nav {
   z-index: 2;
   left: 0;
   margin-top: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 }
 .catigory-side-bar .cats {
   height:400px;
@@ -83,8 +82,9 @@ nav {
   overflow: scroll;
 }
 .active-side {
-  box-shadow: 0px 0px 2px #1A73E8 !important;
+  /* box-shadow: 0px 0px 2px #1A73E8 !important; */
   color: #1A73E8 !important;
+  border-bottom: 2px solid #1A73E8;
 }
 .shadow {
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
@@ -110,7 +110,7 @@ nav {
 .img-container-items img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .img-container-product img {
   width: 100%;
@@ -127,7 +127,18 @@ nav {
 .token-image-2 {
   display: inline-block;
   width: 30px;
-  height: 30px;
+  height: 25px;
+  background-image: url(https://www.cryptocompare.com//media/34835941/usdc.png);
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position:center;
+}
+.token-image-3 {
+  display: inline-block;
+  width: 30px;
+  height: 25px;
+  margin-top: 10px;
+  position:absolute;
   background-image: url(https://www.cryptocompare.com//media/34835941/usdc.png);
   background-size:contain;
   background-repeat: no-repeat;
@@ -135,6 +146,9 @@ nav {
 }
 .faded-sol{
   color: #A0AEC0;
+}
+.bd-code-2 {
+  border:  solid 1px #f0f0f0;
 }
 .add-to-cart-btn {
   display: inline-flex;
@@ -206,11 +220,11 @@ nav {
 .nav-extended {
   position: absolute;
   width: 200px;
-  margin-left: 30px;
+  margin-left: -20px;
   display: none;
   border-radius: 10px;
   padding-bottom: 10px;
-  margin-top: 10%;
+  margin-top: 20%;
 }
 .nav-extended-2 {
   position: absolute;
@@ -263,7 +277,7 @@ nav {
   width: 220px;
   height:100vh;
   /* border: solid 1px #555; */
-  margin-top: 7.5%;
+  margin-top: 5%;
   margin-left: 13%;
   display: none;
 }
@@ -364,28 +378,99 @@ nav {
   width: 100%;
   height: 70px;
   overflow: hidden;
+  /* background-color:#f0f0f0; */
 }
 .img-container-2 img {
-  width: 98%;
-  margin-left: 5%;
+  width: 100%;
   height: 100%;
-  object-fit:contain;
+  object-fit:cover;
   object-position: center;
 }
 button {
   border: unset;
+  background-color:transparent;
 }
-
-
-
-
-
-
-
-
-
-
-
+.mg-2 {
+  margin-left: 2px;
+}
+.img-container-cart{
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+}
+.img-container-cart img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius:20px;
+}
+.gap-elements {
+  display: flex;
+  flex-direction: row; /* For vertical space */
+  gap: 10px; /* Add space between flex items */
+}
+.gap-20 {
+  display: flex;
+  flex-direction: row; /* For vertical space */
+  gap: 10px; /* Add space between flex items */
+}
+.gap-20 > :last-child {
+  margin-left: auto; /* Pushes the last child to the end */
+}
+.v-gap-20 {
+  display: flex;
+  flex-direction:column; /* For vertical space */
+  gap: 10px; /* Add space between flex items */
+}
+.o-act{
+  display: inline-block;
+  position:absolute;
+  width: 2px;
+  height: 20px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: #1A73E8;
+}
+.ov-scroll-400 {
+  height: 300px;
+  overflow: scroll;
+}
+.img-container-6 {
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+}
+.img-container-6 img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.bg-img-2{
+  background-image: url(https://checkout.scalex.africa/static/media/landing-page-bg.515b3942abad1dada8e8.png);
+  background-size:cover;
+}
+.box {
+  width: 300px;
+  height: 200px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Gradient background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* Nice shadow effect */
+  border-radius: 10px; /* Smooth edges */
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+}
+.dash {
+  width: 50px;
+  height: 3px;
+  margin-top: 2px;
+  background-color:#1A73E8;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+.items-hover:hover{
+  box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.1);
+  transition: .5s ease-in-out;
+}
 
 
 
@@ -491,15 +576,18 @@ video {
 }
 
 .bg-color-code-2 {
- background-color: #13c01341;
+ background-color: #13c01317 !important;
 }
 
 .bg-color-code-3 {
- background-color: #1a73e827;
+ background-color: #1a73e81a !important;
 }
 
 .bg-color-code-4 {
  background-color: #F4F7FA !important;
+}
+.bg-color-code-5 {
+ background-color: #f11b0c1f !important;
 }
 
 .bg-faded {
@@ -1152,8 +1240,20 @@ animation: skeletonss 2s infinite linear;
   background-color:rgba(0, 0, 0, 0.5);
   z-index: 4000;
  }
-
-
+ .z-30 {
+  z-index: 30 !important;
+ }
+.vh-100 {
+ height: 100vh;
+}
+.cart-container{
+ height: 70vh;
+ overflow-y: scroll;
+}
+.rignt-0 {
+  right: 0;
+  position: absolute !important;
+}
  .side-bar {
   height: 100vh;
   position:fixed;
@@ -1753,3 +1853,14 @@ a{
 .h-100vh {
   height: 100vh !important;
 }
+.img-container-order {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius:10px !important;
+ }
+ .img-container-order img {
+  width: 100%;
+  object-fit: contain;
+  border-radius:10px !important;
+ }

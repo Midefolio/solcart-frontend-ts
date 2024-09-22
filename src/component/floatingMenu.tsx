@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { homePageMenu } from "../data/category";
+import ReactCountryFlag from "react-country-flag";
 
-const FloatMenu = () => {
+const FloatMenu = ({setBuyUsdc}:any) => {
     const [isVisible, setIsVisible] = useState(false);
     const [active, setActive] = useState(null);
 
@@ -32,21 +33,21 @@ const FloatMenu = () => {
     return (
         <>
             {isVisible ?
-                <div className="my-bottom-20 rad-30 b-shadow xs-12 float-menu-bar my-fade-in bg-white">
+                <div className=" rad-30 b-shadow xs-12 float-menu-bar my-fade-in bg-white">
                     <div className="my-container xs-12 down-2">
                         <div className="my-col-9 xs-8">
                             {homePageMenu?.map((i, index) => (
                                 <button
                                     key={index}
-                                    className={`rad-30 mg-5 c-pointer pd-10 px12 xs-px10 ubuntuMedium bg-white ${active === index ? 'active-side' : ''}`}
+                                    className={`rad-30 mg-5 c-pointer pd-10 px12 xs-px8 ubuntuMedium bg-white ${active === index ? 'active-side' : ''}`}
                                     onClick={() => handleMenuClick(index)}
                                 >
-                                    {i.menu}
+                                {i.menu}
                                 </button>
                             ))}
                         </div>
                         <div className="my-col-2 xs-4 right">
-                            <button className="rad-30 pd-10 px12 c-pointer ubuntuMedium mg-10 bg-color-code-1 white c-pointer b-shadow">
+                            <button className="rad-30 pd-10 px13 c-pointer ubuntuMedium mg-10 bg-color-code-1 white c-pointer b-shadow">
                                 P2P Market <i className="fas fa-exchange mg-10"></i>
                             </button>
                         </div>
@@ -56,22 +57,19 @@ const FloatMenu = () => {
                     </div>
                 </div>
                 :
-                <div className="my-col-12 xs-12 xs--down-2 upper-cse">
-                    <div className="my-col-10 xs-8">
+                <div className="my-col-12 xs-12 upper-cse">
+                    <div className="my-col-12 gap-20 xs-8">
                         {homePageMenu?.map((i, index) => (
                             <button
                                 key={index}
-                                className={`rad-30 mg-5 c-pointer pd-10 px12 xs-px10 ubuntuMedium bg-white ${active === index ? 'active-side' : ''}`}
+                                className={`rad-0 c-pointer ubuntuBold pd-10 px13 xs-px9 faded-sol InterLight bg-wite ${active === index ? 'active-side' : ''}`}
                                 onClick={() => handleMenuClick(index)}
                             >
                                 {i.menu}
                             </button>
-                        ))}
-                    </div>
-                    <div className="my-col-2 right xs-4">
-                        <span className="rad-30 pd-10 px12 c-pointer xs-px10 ubuntuMedium mg-10 bg-color-code-1 white c-pointer b-shadow">
-                            P2P Market <i className="fas fa-exchange mg-10"></i>
-                        </span>
+                        ))} 
+                        <span></span>
+                        {/* <button  onClick={()=> {setBuyUsdc(true)}} className="ubuntuBold pd-10 bg-color-code-1 white rad-30 px13">USDC TopUp</button> */}
                     </div>
                 </div>
             }

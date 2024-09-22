@@ -7,16 +7,18 @@ import useApi from "../../../hook/useApi";
 import useUtilsContext from "../../../hook/useUtilsContext";
 import { useEffect } from "react";
 import MyItems from "./my_items";
+import MyOrders from "./my_orders";
+import Balance from "./balance_page";
 
 const DashMain = () => {
   const { active } = useParams();
   const [searchParams] = useSearchParams();
   const query: any = searchParams.get("p");
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser, user } = useUserAuthContext();
+  // const { currentUser, setCurrentUser, user } = useUserAuthContext();
   const { BASE_URL } = useUtilsContext();
-  const { isSending } = useUtils();
-  const { makeRequest } = useApi();
+  // const { isSending } = useUtils();
+  // const { makeRequest } = useApi();
   const validActives = [
     "main",
     "call-requests",
@@ -32,8 +34,8 @@ const DashMain = () => {
     "saved-items",
     "post-item",
   ];
-  const user_api = BASE_URL + "userAuth/get-current-user";
-  const email = localStorage.getItem("solCart-email");
+  // const user_api = BASE_URL + "userAuth/get-current-user";
+  // const email = localStorage.getItem("solCart-email");
 
   // Check if the active or query is invalid
   const isActiveValid = active && validActives.includes(active);
@@ -49,28 +51,30 @@ const DashMain = () => {
     );
   }
 
-  const getCurrentUser = async () => {
-    const cb = () => {
-      isSending(false);
-    };
-    const res = await makeRequest("POST", user_api, { email }, cb, user);
-    if (res) {
-      setCurrentUser(res?.data);
-      isSending(false);
-    }
-  };
+  // const getCurrentUser = async () => {
+  //   const cb = () => {
+  //     isSending(false);
+  //   };
+  //   const res = await makeRequest("POST", user_api, { email }, cb, user);
+  //   if (res) {
+  //     setCurrentUser(res?.data);
+  //     isSending(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (!currentUser && user) {
-      getCurrentUser();
-    }
-  }, [user, currentUser]);
+  // useEffect(() => {
+  //   if (!currentUser && user) {
+  //     getCurrentUser();
+  //   }
+  // }, [user, currentUser]);
 
   return (
     <>
       <UserDasNav />
+      {active === "main" && <Balance/>}
       {active === "Items" && query === "items-for-sale" && <MyItems />}
       {active === "Items" && query === "post-item" && <PostItem />}
+      {active === "orders" && query === "my-orders" && <MyOrders />}
     </>
   );
 };
