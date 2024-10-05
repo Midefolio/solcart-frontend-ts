@@ -23,7 +23,7 @@ const PostItem = () => {
   const post_item_api = BASE_URL + 'Items/add-item';
 
   const [Item, setItem] = useState<any>({
-    deployment_status:"in-review",   // review, live, rejected  
+    deployment_status:"live",   // review, live, rejected  
     user_id: "",
     seller_name: "",
     seller_logo: "",

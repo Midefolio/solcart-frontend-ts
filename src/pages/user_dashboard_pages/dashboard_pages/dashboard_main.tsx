@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import MyItems from "./my_items";
 import MyOrders from "./my_orders";
 import Balance from "./balance_page";
+import CustomerOrders from "./customer_orders";
 
 const DashMain = () => {
   const { active } = useParams();
@@ -75,6 +76,7 @@ const DashMain = () => {
       {active === "Items" && query === "items-for-sale" && <MyItems />}
       {active === "Items" && query === "post-item" && <PostItem />}
       {active === "orders" && query === "my-orders" && <MyOrders />}
+      {active === "orders" && query === "my-customers-order" && <CustomerOrders />}
     </>
   );
 };

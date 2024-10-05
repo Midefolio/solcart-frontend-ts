@@ -12,6 +12,7 @@ import ReactCountryFlag from 'react-country-flag';
 import { useState } from "react";
 import SwithCountry from "../../../component/country_swith";
 import useUserAuthContext from "../../../hook/userUserAuthContext";
+import useSocket from "../../../hook/useSockets";
 
 const UserDasNav = () => {
   const Navigate = useNavigate();
@@ -20,7 +21,6 @@ const UserDasNav = () => {
   const [switchCountry, setSwitchCountry] = useState(false);
   const { setCurrentUser } = useUserAuthContext();
   const [openMsideBar, setOpenMSideBar] = useState(false);
-
   const switchPageHandler = (url: any) => {
     localStorage.setItem("solCart-active", url);
     Navigate(`${url}`);

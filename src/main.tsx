@@ -12,6 +12,7 @@ import ItemContextProvider from "./context/itemContext.tsx";
 import WalletProviderWrapper from "./component/wallectProvoder.tsx";
 
 import { Buffer } from 'buffer'
+import DashboardContextProvider, { DashboardContext } from "./context/dashboardContext.tsx";
 globalThis.Buffer = Buffer
 
 
@@ -35,7 +36,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <AuthContextProvider>
           <ItemContextProvider>
             <WalletProviderWrapper>
+              <DashboardContextProvider>
               <App />
+              </DashboardContextProvider>
             </WalletProviderWrapper>
           </ItemContextProvider>
         </AuthContextProvider>

@@ -28,6 +28,7 @@ const UtilsContextProvider: React.FC<UtilsContextProviderProps> = ({
   const [cart, setCart] = useState<any[]>([]);
   const [openCart, setOpenCart] = useState<boolean>(false)
   const [cartTotalPrice, setCartTotalPrice] = useState<number>(0);
+  const [ot, setOt] = useState(false);
   const [newUser, setNewUser] = useState({
     email: "",
     firstName: "",
@@ -90,6 +91,7 @@ const UtilsContextProvider: React.FC<UtilsContextProviderProps> = ({
         cart, setCart,
         openCart, setOpenCart,
         cartTotalPrice, setCartTotalPrice,
+        ot, setOt
       }}
     >
       {children}

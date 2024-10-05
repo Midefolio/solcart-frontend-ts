@@ -8,71 +8,89 @@ import useItemContext from "../../../hook/useItemContext";
 import useDasnboardContext from "../../../hook/useDashboardContext";
 import DeliveryCountdown from "../dashboard_components/countdown";
 
+const ConfirmOrders = ({ setseeFullMsg, makeAsDelivered }: any) => {
+  return (
+    <>
+      <div
+        className="my-modal bg-faded-3"
+        onClick={() => {
+          setseeFullMsg(false);
+        }}
+      >
+        <div
+          className="my-col-6 off-3 down-10 rad-10 my-bottom-20 bg-white "
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="my-col-10 off-1 down-5">
+            <span className="">Confirm Delivery</span>
+            <div className="my-mother">
+              <p className="down-3 ubuntuBold">
+                Are you sure you have delivered this Item ?
+              </p>
+              <p className="gap-elements my-mother">
+                {/* <button className="pd-10 bg-color-code-1 white px13 ubuntuBold" onClick={viewOrder}>View Order</button> */}
+                <button
+                  className="pd-10 bg-color-code-3 color-code-1 px13 ubuntuBold rad-10"
+                  onClick={() => {
+                    makeAsDelivered()
+                  }}
+                >
+                  Yes I have
+                </button>
+                <button
+                  className="pd-10 bg-color-code-1 white px13 ubuntuBold rad-10"
+                  onClick={() => {
+                    setseeFullMsg(false);
+                  }}
+                >
+                  Close
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
-
-
-const ConfirmOrders =({setseeFullMsg}:any)=> {
-  return ( <>
-    <div className="my-modal bg-faded-3" onClick={()=> {setseeFullMsg(false)}}>
-       <div className="my-col-6 off-3 down-10 rad-10 my-bottom-20 bg-white ">
-           <div className="my-col-10 off-1 down-5">
-               <span>Confirm Delivery</span>
-               <div className="my-mother down-5">
-                   <span className="ubuntuBold red pd-10 px13 bg-color-code-5 rad-10">Records show your seller is yet to deliver this Item</span>
-                   {/* <p>We are pleased to inform you that <span className="color-code-1 ubuntuBold">{convToSolana(i?.amount)} USDC</span> payment for your item, <span className="ubuntuBold">[{i?.order?.item_name}]</span>, has been successfully transferred to our secure escrow account by a buyer.</p> */}
-                   <p className="down-3">If you have received this item, please contact the seller to mark it as delivered from their end so they can receive their payment</p>
-                   <p className="gap-elements my-mother">
-                       {/* <button className="pd-10 bg-color-code-1 white px13 ubuntuBold" onClick={viewOrder}>View Order</button> */}
-                       <button className="pd-10 bg-color-code-1 white px13 ubuntuBold rad-10"  onClick={()=> {setseeFullMsg(false)}}>Close</button>
-                   </p>
-               </div>
-           </div>
-       </div>
-    </div>
-   </>  );
-}
-
-
-const ConfirmDelivery =({setThankYou}:any)=> {
-  return ( <>
-    <div className="my-modal bg-faded-3" onClick={()=> {setThankYou(false)}}>
-       <div className="my-col-4 off-5 down-15 rad-10 centered my-bottom-20 bg-white ">
-           <div className="my-col-10 off-1 down-4">
-               <div className="my-mother down-2"><span><img src="https://img.icons8.com/?size=100&id=oqvgUacBOlCn&format=png&color=000000" alt="" /></span></div>
-               <span className="px20 ubuntuBold">Thanks for using Solcart !!</span>
-               <div><span>Seller has been credited</span></div>
-           </div>
-       </div>
-    </div>
-   </>  );
-}
-
-const ConfirmDeliveryStatus =({makeAsDelivered, setcds}:any)=> {
-  return ( <>
-    <div className="my-modal bg-faded-3" onClick={()=> {setcds(false)}}>
-       <div className="my-col-6 off-3 down-10 rad-10 my-bottom-20 bg-white" onClick={(e)=> {e.stopPropagation()}}>
-           <div className="my-col-10 off-1 down-5">
-               <span>Confirm Delivery</span>
-               <div className="my-mother down-5">
-                   <span className="ubuntuBold green pd-10 px13 bg-color-code-3 rad-10">Records show your seller has deliver this Item</span>
-                   {/* <p>We are pleased to inform you that <span className="color-code-1 ubuntuBold">{convToSolana(i?.amount)} USDC</span> payment for your item, <span className="ubuntuBold">[{i?.order?.item_name}]</span>, has been successfully transferred to our secure escrow account by a buyer.</p> */}
-                   <p className="down-4">If you have not received this item, or aren't not please with what you received kindly file a dispute and follow our refund policy.</p>
-
-                   <p className="red ubuntuBold">  Once you confirm, seller gets credited and there's no going back</p>
-                   <p className="gap-elements my-mother">
-                       {/* <button className="pd-10 bg-color-code-1 white px13 ubuntuBold" onClick={viewOrder}>View Order</button> */}
-                       <button className="pd-10 bg-red white px13 ubuntuBold rad-10"  onClick={()=> {setcds(false)}}>File Despute</button>
-                       <button className="pd-10 bg-color-code-2 color-code-1 px13 ubuntuBold rad-10"  onClick={()=> {makeAsDelivered()}}>Confirm Delivery</button>
-                   </p>
-               </div>
-           </div>
-       </div>
-    </div>
-   </>  );
-}
-
-
-
+const ConfirmDelivery = ({ setThankYou, view }: any) => {
+  return (
+    <>
+      <div
+        className="my-modal bg-faded-3"
+        onClick={() => {
+          setThankYou(false);
+        }}
+      >
+        <div className="my-col-4 off-5 down-15 rad-10  my-bottom-20 bg-white" onClick={(e)=> {e.stopPropagation()}}>
+          <div className="my-col-10 off-1 down-4">
+            <span className="px15 ubuntuBold">Buyer's Contact</span>
+            <div className="my-mother down-3">
+              <span className="my-mother faded-sol px13 bd-bottom my-bottom-10">
+               Name: <span className="color-code-1">{view?.buyer_name}</span>
+              </span>
+              <span className="my-mother faded-sol px13 down-2 bd-bottom my-bottom-10">
+               Phone:  <span className="color-code-1">{view?.buyer_phone}</span>
+              </span>
+              <span className="my-mother faded-sol px13 down-2 bd-bottom my-bottom-10">
+               Whatsapp: 
+              </span>
+              <span className="my-mother faded-sol px13 down-2 bd-bottom my-bottom-10">
+               X: 
+              </span>
+              <span className="my-mother faded-sol px13 down-2 bd-bottom my-bottom-10">
+               telegram: 
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const MyOrders = () => {
   const [actv, setActv] = useState("review");
@@ -84,17 +102,15 @@ const MyOrders = () => {
   const [thankyou, setThankYou] = useState(false);
   const [orders, setOrders] = useState<any>(null);
   const [query, setQuery] = useState<any>(null);
-  const [cds, setcds] = useState<any>(null);
   const [view, setView] = useState<any>();
-  const api_order =`${BASE_URL}Items/get-order`
-  const api = `${BASE_URL}Items/confirm-order`
+  const api_order = `${BASE_URL}Items/get-order`;
+  const api = `${BASE_URL}Items/update-order`;
 
   const handleClick = (title: string) => {
     setActv(title);
-    setQuery({ buyer: currentUser?.user_id });
+    setQuery({ seller: currentUser?.user_id });
   };
 
-  
   const getOrders = async () => {
     const res = await makeRequest("POST", api_order, query, null, user);
     if (res) {
@@ -103,38 +119,52 @@ const MyOrders = () => {
     }
   };
 
-
+  useEffect(() => {
+    if (currentUser) {
+      setQuery({ seller: currentUser?.user_id }); // Set query when currentUser is available
+    }
+  }, [currentUser]);
 
   useEffect(() => {
-      if (currentUser) {
-        setQuery({ buyer: currentUser?.user_id }); // Set query when currentUser is available
-      }
-    }, [currentUser]);
-    
-    useEffect(() => {
-      if (query) {
-        getOrders(); // Fetch orders when the query is set
-      }
-    }, [query]);
-    
+    if (query) {
+      getOrders(); // Fetch orders when the query is set
+    }
+  }, [query]);
 
-  const makeAsDelivered = async ()=> {
-    if(!view?.seller_d_status) {
-      setseeFullMsg(true)   // seller hasent deliverd yet
-      return
+  const makeAsDelivered = async () => {
+    isSending(true, "Confirming Delivery...");
+    const cb = () => {
+      isSending(false, "");
+    };
+    const res = await makeRequest(
+      "POST",
+      api,
+      {_id: view?._id, status:"delivered", seller_d_status:true},
+      cb,
+      user
+    );
+    if (res) {
+      await getOrders();
+      setseeFullMsg(false);
     }
-    const confirm = window.confirm('Have you received this item ?');
-    if(!confirm){return}
-    isSending(true, "")
-    const cb =()=> {isSending(false)}
-    const res = await makeRequest('POST', api, view, cb, user);
-    if(res) {
-      await getOrders()
-      setcds(false)
-      notifySuccess("Successfull, Thanks for using Solcart");
-      setThankYou(true)
+  };
+  const undo = async () => {
+    isSending(true, "");
+    const cb = () => {
+      isSending(false);
+    };
+    const res = await makeRequest(
+      "POST",
+      api,
+      {_id: view?._id, status:"pending", seller_d_status:false},
+      cb,
+      user
+    );
+    if (res) {
+      await getOrders();
+      setseeFullMsg(false);
     }
-  }
+  };
 
   const formatUSDC = (amount: number): string => {
     return new Intl.NumberFormat("en-US", {
@@ -147,18 +177,19 @@ const MyOrders = () => {
     return formatUSDC(price * conv);
   };
 
-
-
-
   return (
-     <>
-     {thankyou && <ConfirmDelivery setThankYou={setThankYou}/>}
-       {fullMsg && <ConfirmOrders setseeFullMsg={setseeFullMsg} />}
-      {cds && <ConfirmDeliveryStatus makeAsDelivered={makeAsDelivered} setcds={setcds}/>}
-        <div className="my-col-10 off-2 xs-12 xs-down-9vh">
+    <>
+      {thankyou && <ConfirmDelivery view={view} setThankYou={setThankYou} />}
+      {fullMsg && (
+        <ConfirmOrders
+          makeAsDelivered={makeAsDelivered}
+          setseeFullMsg={setseeFullMsg}
+        />
+      )}
+      <div className="my-col-10 off-2 xs-12 xs-down-9vh">
         <div className="my-container down-8 xs-container bg-wite rad-10 my-bottom-50 xs-down-">
           <div className="my-col-12 xs-container xs-down-5 down-3">
-            <span className="px20 xs-px15 ubuntuBold">My Orders</span>
+            <span className="px20 xs-px15 ubuntuBold">Customer Orders</span>
           </div>
           <div className="my-col-12 xs-container xs-down-5 down-1 faded-sol ubuntuBold bd-bottom my-bottom-10 my-items-links">
             <span
@@ -299,7 +330,7 @@ const MyOrders = () => {
                               </span>
                             </div>
                             <div className="my-mother down-1">
-                            <span className="px12 color-code-1 ubuntuBold">
+                              <span className="px12 color-code-1 ubuntuBold">
                                 {view?.status == "pending" ? (
                                   "In progress"
                                 ) : (
@@ -311,21 +342,35 @@ const MyOrders = () => {
                         </div>
                       </div>
                       <div className="my-bottom-20 gap-20 down-3 my-mother">
-                        <div className="my-col-3">
+                        <div className="my-col-10">
                           {" "}
-                          {view?.seller_d_status && !view?.buyer_d_status && <button  onClick={()=> {setcds(true)}} className="bg-green rad-10 pd-10 white ubuntuLight px12">
-                            Confirm Delivery{" "}
-                          </button>}
+                          {!view?.seller_d_status && <span  onClick={()=> {setseeFullMsg(true)}} className="bg-color-code-1 white rad-10 c-pointer pd-10 faded-sol ubuntuLight px12">Mark as delivered</span>  }
+                          {view?.buyer_d_status && view?.seller_d_status && <span onClick={()=> {setseeFullMsg(true)}} className="bg-faded-3 rad-10 pd-10 faded-sol ubuntuLight px12">Delivered</span>  }
+                          {!view?.buyer_d_status && view?.seller_d_status && (
+                           <>
+                             <span
+                              className="rad-10 lin-1 ubunutBold orange px12"
+                            >
+                              Waiting for the buyer to confirm delivery{" "}
+                              <i className="fas mg-5 orange fa-spinner fa-spin"></i>{" "}
+                            </span>
+                           <div  onClick={()=> {undo()}} className="my-mother down-3">
+                            <span className="color-code-1 ubuntuLight px12 c-pointer">Undo delivery status</span>
+                           </div>
+                           </>
+
+                          )}
                         </div>
-                        <div className="my-col-6 down-2 right ">
+                        <div className="my-col-6 right down-1">
                           {" "}
                           <span className="color-code-1">
-                            {!view?.buyer_d_status && <DeliveryCountdown
+                            <DeliveryCountdown
                               createdAt={view?.createdAt}
                               locationString={view?.delivery_option_selected}
-                              from="buyer"
-                            />}
+                              from=""
+                            />
                           </span>
+                          <div onClick={()=> {setThankYou(true)}} className="pd-5 down-2 my-mother c-pointer">See Buyer Details</div>
                         </div>
                       </div>
                     </div>

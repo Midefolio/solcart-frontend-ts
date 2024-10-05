@@ -1,27 +1,53 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import useUserAuthContext from "../hook/userUserAuthContext";
 import ConnectWalletButton from "./custom_btn";
+import SendSolanaSplTokens from "./transfer_fuction";
+import useUtilsContext from "../hook/useUtilsContext";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const PaymentOptions = ({ priceInUsdc, setOt }: any) => {
   const { setUserContact, userContact } = useUserAuthContext();
-  const [contactInfo, setContactInfo] = useState({ wa_link: "", phone: "" });
+  const [isValidPhone, setIsValidPhone] = useState(false); // To store validation state
+  const { conv, country } = useUtilsContext(); // `country` contains { code }
 
-  const handleProceed = () => {
-    if (contactInfo.wa_link && contactInfo.phone) {
-      // Set user contact if both fields are filled
-      setUserContact(contactInfo);
-      // Proceed to the next step
-      setOt(false);
-    } else {
-      alert("Please fill in both WhatsApp link and phone number before proceeding.");
-    }
+  const formatUSDC = (amount: number): string => {
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    }).format(amount);
   };
 
-  console.log(userContact)
+  // Convert the total price to USDC using the `conv` rate
+  const totalPriceInUSDC = (price: number) => {
+    return formatUSDC(price * conv);
+  };
+
+  // Validate phone number based on country code
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let phoneNumber = e.target.value;
+
+    // Check if the phone number already starts with +234, otherwise add it
+    if (!phoneNumber.startsWith(country?.code)) {
+      phoneNumber = country?.code + phoneNumber;
+    }
+
+    // Parse and validate the phone number
+    const phone = parsePhoneNumberFromString(phoneNumber, country?.value || "NG");
+
+    // Check if the phone number is valid
+    if (phone && phone.isValid()) {
+      setIsValidPhone(true); // Phone is valid
+    } else {
+      setIsValidPhone(false); // Phone is invalid
+    }
+
+    // Update the contact state
+    setUserContact((prev: any) => ({ ...prev, phone: phoneNumber }));
+  };
 
   return (
     <>
-      <div className="my-modal bg-blur" onClick={() => setOt(false)}>
+      <div className="my-modal bg-blur" onClick={() => {setOt(false); setUserContact({ wa_link: "", phone: "" })}}>
         <div
           className="my-col-6 off-3 rad-10 my-bottom-50 bg-white down-5"
           onClick={(e) => e.stopPropagation()}
@@ -35,7 +61,7 @@ const PaymentOptions = ({ priceInUsdc, setOt }: any) => {
                 Please review your cart carefully, as orders cannot be canceled once placed.
               </span>
               <span className="my-container top-1">
-                <button className="pd-5 black">review cart <i className="fas fa-angle-right"></i></button>
+                <button onClick={() => {setOt(false); setUserContact({ wa_link: "", phone: "" })}} className="pd-5 black">review cart <i className="fas fa-angle-right"></i></button>
               </span>
             </div>
             <div className="bd-bottom my-mother down-3 my-bottom-5">
@@ -51,7 +77,7 @@ const PaymentOptions = ({ priceInUsdc, setOt }: any) => {
                   placeholder="paste link here"
                   className="input InterLight bg-faded-4 down-1 rad-10 px12"
                   value={userContact.wa_link}
-                  onChange={(e) => setUserContact((prev:any) => ({ ...prev, wa_link: e.target.value }))}
+                  onChange={(e) => setUserContact((prev: any) => ({ ...prev, wa_link: e.target.value }))}
                 />
                 <a href="" className="mg-5 ubuntuLight faded-sol px12">
                   Get whatsapp link <a className="color-code-1 bold">here</a>
@@ -62,24 +88,25 @@ const PaymentOptions = ({ priceInUsdc, setOt }: any) => {
                   Phone Number <i className="fa fa-phone-alt"></i>
                 </div>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="enter phone number"
-                  className="input InterLight bg-faded-4 down-1 rad-10 px12"
+                  className={`input InterLight bg-faded-4 down-1 rad-10 px12 ${isValidPhone ? "" : "input-error"}`}
                   value={userContact.phone}
-                  onChange={(e) => setUserContact((prev:any) => ({ ...prev, phone: e.target.value }))}
+                  onChange={handlePhoneChange}
                 />
+                {!isValidPhone && (
+                  <div className="error-message">Invalid phone number for {country?.value}</div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Conditionally show Connect Wallet Button and QR Code if phone number is entered */}
-          {userContact.phone && (
+          {/* Conditionally show Connect Wallet Button and QR Code if phone number is valid */}
+          {isValidPhone && (
             <div className="my-col-10 off-1 gap-elements down-5">
-              <span onClick={() => setOt(false)}>
-                <ConnectWalletButton />
+              <span>
+                <SendSolanaSplTokens priceInUsdc={priceInUsdc} />
               </span>
-              <span className="pd-10">or</span>
-              <button className="pd-10 ubuntuRegular px18 color-code-1">Scan QR Code</button>
             </div>
           )}
         </div>

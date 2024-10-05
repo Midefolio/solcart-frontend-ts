@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineEye } from "react-icons/ai";
 import useUserAuthContext from "../../../hook/userUserAuthContext";
 import useApi from "../../../hook/useApi";
 import useUtilsContext from "../../../hook/useUtilsContext";
 import CustomSkeleton from "../../../component/skeleton";
 import useUtils from "../../../utils/useutils";
+import { useNavigate } from "react-router-dom";
 
 const MyItems = () => {
     const [actv, setActv] = useState('review');
@@ -16,6 +17,7 @@ const MyItems = () => {
     const { BASE_URL } = useUtilsContext();
     const get_item_api = `${BASE_URL}Items/get-by-props`;
     const delete_item_api = `${BASE_URL}Items/delete-item`;
+				const Navigate = useNavigate();
 
     const handleClick = (title: string, status: string) => {
         setActv(title);
@@ -94,7 +96,7 @@ const MyItems = () => {
                         {items?.length > 0 && (
                             <>
                                 {items.map((item: any, index: number) => (
-                                    <div className="my-col-4 xs-down-1 xs-12 down-1" key={index}>
+                                    <div className="my-col-4 xs-down-1 xs-12 down-1" key={index} >
                                         <div className="my-col-11 xs-12 bg-white rad-10">
                                             <div className="my-col-3 xs-3 xs-down-1">
                                                 <div className="img-container-2">
@@ -112,12 +114,23 @@ const MyItems = () => {
                                                         </span>
                                                     </div>
                                                     <div className="my-mother xs-down-1">
+
+                                                    {item.deployment_status == 'live' && 
+                                                        <span className="px12 xs-px10 pd-5 ubuntuLight green bg-color-code-2 rad-10">
+                                                            {item.deployment_status}    
+                                                        </span>
+                                                    }
+                                                    {item.deployment_status == 'in-review' && 
                                                         <span className="px12 xs-px10 ubuntuLight orange">
                                                             {item.deployment_status} <i className="fas px10 fa-spinner orange"></i>
                                                         </span>
+                                                    }
+                                                        
+																																																								{item.deployment_status == 'in-review' && 
                                                         <span className="faded-sol pd-5 rad-30 mg-5 xs-px8 px8 ubuntuBold bg-color-code-3 xs-px8 color-code-1">
                                                             within 10hrs max
                                                         </span>
+                                                    }
                                                     </div>
                                                     <div className="my-mother">
                                                         <AiOutlineDelete
@@ -125,9 +138,11 @@ const MyItems = () => {
                                                             title="delete item"
                                                             className="pd-5 faded-sol"
                                                         />
-                                                        <AiOutlineEdit
+                                                        <AiOutlineEye
                                                             title="update item"
                                                             className="pd-5 faded-sol"
+
+																																																												onClick={()=> {Navigate(`/Items/${item?._id}`)}}
                                                         />
                                                     </div>
                                                 </div>

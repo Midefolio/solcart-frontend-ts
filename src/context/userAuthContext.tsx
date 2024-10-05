@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useReducer, ReactNode, useState } from
 import useUtils from "../utils/useutils";
 import useApi from "../hook/useApi";
 import useUtilsContext from "../hook/useUtilsContext";
+import useSocket from "../hook/useSockets";
 
 // Define the shape of your Auth state and actions
 interface AuthState {
@@ -44,6 +45,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   const user_api = `${BASE_URL}userAuth/get-current-user`;
   const cart_api = `${BASE_URL}Items/get-cart`;
   const email = localStorage.getItem("solCart-email");
+  const { messages } = useSocket('http://localhost:4000', currentUser?.user_id);  //come back to this
 
   useEffect(() => {
     if (token) {
@@ -82,7 +84,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   }, [currentUser])
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch, currentUser, setCurrentUser, userContact, setUserContact  }}>
+    <AuthContext.Provider value={{ ...state, dispatch, currentUser, setCurrentUser, messages, userContact, setUserContact  }}>
       {children}
     </AuthContext.Provider>
   );

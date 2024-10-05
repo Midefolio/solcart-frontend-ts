@@ -108,6 +108,7 @@ const CartForm = ({ i, setOpenC }: any) => {
     const newItem = {
       item_id: uuidv4(),
       quantity,
+      price_in_usdc:convToSolana(totalPrice),
       item_image:i.images[0].secure_url,
       item_price:totalPrice,
       delivery_free_cost:deliveryCost,
@@ -125,7 +126,13 @@ const CartForm = ({ i, setOpenC }: any) => {
       ),
       buyer:currentUser?.user_id,
       seller:i?.user_id,
-      status:""
+      status:"",
+      seller_d_status:"",
+      buyer_d_status:"",
+      buyer_name:currentUser?.firstName + " " + currentUser?.lastName,
+      seller_phone:i?.phoneNumber,
+      seller_wa_link:i?.whatsapp,
+      seller_telegram:i?.telegram,
     };
   
     setCart((prevCart: any) => [...prevCart, newItem]);

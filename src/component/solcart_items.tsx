@@ -138,7 +138,7 @@ const CartItems = ({ i }: any) => {
 
   return (
     <>
-      <div className="pd-10 my-mother rad-10 bd-code-2">
+      <div className="pd-10 my-mother rad-10">
         <div className="my-col-2">
           <div className="img-container-cart">
             <img src={i?.item_image} alt="" />
@@ -147,18 +147,18 @@ const CartItems = ({ i }: any) => {
         <div className="my-col-10">
           <div className="my-container down-2">
             <div className="my-moter">
-              <div className="my-mother top-3">
-                <span>
-                  <i className="fas fa-map-marker-alt pd-10-exl"></i>
+              <div className="my-mother color-code-1 gap-elements top-3">
+                <i className="fas fa-map-marker-alt px12 down-1"></i>
+                <span className="px12">
                   {updated?.delivery_option_selected}
                 </span>
               </div>
               <span className="ubuntuBold px18">{reservedItem?.title}</span>
-              <span className="ubuntuBold fl-right">
-                <i className="token-image"></i> {totalPriceInUSDC(totalPrice)} USDC {/* Updated Item Price in USDC */}
-              </span>
             </div>
-            <div className="gap-20 down-1">
+              <div className="ubuntuLight fl-riht">
+                <i className="token-image"></i> {totalPriceInUSDC(totalPrice)} USDC {/* Updated Item Price in USDC */}
+              </div>
+            <div className="gap-20 down-2">
               {/* Render each variation */}
               {reservedItem?.variations?.map((variation: any, index: any) => (
                 <select

@@ -11,6 +11,7 @@ import Items from "../component/items";
 import CustomSkeleton from "../component/skeleton";
 import CartForm from "../component/cart_form";
 import useUserAuthContext from "../hook/userUserAuthContext";
+import icon from '../images/5898014022362579411__1_-removebg-preview.png'
 
 const ViewItem = () => {
   const { BASE_URL, conv } = useUtilsContext();
@@ -55,6 +56,27 @@ const ViewItem = () => {
   const handleVariationClick = (index: number) => {
     setSelectedVariationIndex(index);
   };
+
+
+  useEffect(() => {
+    const metaDescriptionTag:any = document.querySelector('meta[name="description"]');
+    if (metaDescriptionTag) {
+      metaDescriptionTag.setAttribute('content', i?.title);
+      document.title = i? i?.title : "Solcart";
+    }
+    const favicon:any = document.querySelector("link[rel='icon']");
+    if (favicon) {
+      {i?  favicon.href = i?.images[0].secure_url :  favicon.href = icon}
+     
+    }
+  
+    return () => {
+      favicon.href = icon
+      document.title = "Solcart";
+      metaDescriptionTag.setAttribute('content', 'Escrow protocal for global.....');
+    }
+  }, [i]);
+
 
   return (
     <>

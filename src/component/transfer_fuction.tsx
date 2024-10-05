@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import img from '../images/Check.gif';
+import { useState } from 'react';
 import {
   WalletNotConnectedError,
   SignerWalletAdapterProps
@@ -22,6 +21,9 @@ import useUtilsContext from '../hook/useUtilsContext';
 import useApi from '../hook/useApi';
 import useUserAuthContext from '../hook/userUserAuthContext';
 import Exchange from './exchange';
+import PaymentOptions from './payment_options';
+import useDasnboardContext from '../hook/useDashboardContext';
+import { useNavigate } from 'react-router-dom';
 
 const isValidPublicKey = (key: string): boolean => {
   try {
@@ -63,10 +65,12 @@ const SendSolanaSplTokens = ({ priceInUsdc }: any) => {
   const [confirming, setConfirming] = useState(false);
   const { notifyError, notifySuccess } = useUtils();
   const { makeRequest } = useApi();
-  const { cart, setCart, cartTotalPrice, conv, BASE_URL } = useUtilsContext();
+  const { cart, setCart, cartTotalPrice, ot, setOt, conv, BASE_URL } = useUtilsContext();
   const { user, currentUser, userContact } = useUserAuthContext();
   const api = `${BASE_URL}Items/add-order`;
   const [buyUsdc, setBuyUsdc] = useState(false);
+  const navigate = useNavigate();
+  const {  getOrders } = useDasnboardContext();
 
   const formatUSDC = (amount: number): string => {
     return new Intl.NumberFormat("en-US", {
@@ -81,51 +85,57 @@ const SendSolanaSplTokens = ({ priceInUsdc }: any) => {
 
   const handlePayment = async () => {
     if (isSending) return; // Prevent multiple clicks
-
+  
     try {
       setIsSending(true); // Set to true when transaction starts
-
+  
       if (!publicKey || !signTransaction) {
         throw new WalletNotConnectedError();
       }
-
+  
       const mintTokenString = '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU'; // USDC token address
-      const recipientAddressString = '73J64kmUiaW7RPJjS6Q7nMK35f7hgVGMwaGhDvs9Qswr'; // Replace with recipient address
-
+      const recipientAddressString = '9iDopM7dVSkMYYsfcnHrpUvmynVwtoYdAvqk4CE9eErZ'; // Replace with recipient address
+  
       if (!isValidPublicKey(mintTokenString) || !isValidPublicKey(recipientAddressString)) {
         notifyError('Invalid public key format.');
         return;
       }
-
+  
       const mintToken = new PublicKey(mintTokenString);
       const recipientAddress = new PublicKey(recipientAddressString);
-
+  
       if (recipientAddress.equals(publicKey)) {
         notifyError('Cannot transfer tokens to yourself.');
         return;
       }
-
+  
       const transactionInstructions: TransactionInstruction[] = [];
       const associatedTokenFrom = await getAssociatedTokenAddress(mintToken, publicKey);
       const fromAccount = await getAccount(connection, associatedTokenFrom);
-
+  
       const userBalance = Number(fromAccount.amount);
+      console.log(userBalance);
       if (isNaN(userBalance)) {
         notifyError('Invalid account balance.');
         return;
       }
-      const requiredAmount = parseFloat(priceInUsdc.replace(/,/g, '')) * 1000000;      
+  
+      // Fix: Remove commas from the priceInUsdc string and convert to number
+      const sanitizedPriceInUsdc = parseFloat(priceInUsdc.replace(/,/g, ''));
+      const requiredAmount = sanitizedPriceInUsdc * 1000000; // Convert USDC amount to smallest unit (micro units)
+      
+      console.log(requiredAmount);
+  
       if (isNaN(requiredAmount)) {
         notifyError('Invalid USDC amount.');
         return;
       }
-
-      
+  
       if (userBalance < requiredAmount) {
         setBuyUsdc(true);
         return;
       }
-
+  
       const associatedTokenTo = await getAssociatedTokenAddress(mintToken, recipientAddress);
       if (!(await connection.getAccountInfo(associatedTokenTo))) {
         transactionInstructions.push(
@@ -137,7 +147,7 @@ const SendSolanaSplTokens = ({ priceInUsdc }: any) => {
           )
         );
       }
-
+  
       transactionInstructions.push(
         createTransferInstruction(
           fromAccount.address, // source
@@ -146,36 +156,56 @@ const SendSolanaSplTokens = ({ priceInUsdc }: any) => {
           requiredAmount // transfer amount in smallest unit
         )
       );
-
+  
       const transaction = new Transaction().add(...transactionInstructions);
-      const signature = await configureAndSendCurrentTransaction(transaction, connection, publicKey, signTransaction);
-      
-      if (signature) {
-        const trn = {
-          payer: currentUser?.user_id,
-          transaction_id: signature,
-          totalPaid: totalPriceInUSDC(cartTotalPrice),
-          type: "credit"
-        };
-        setConfirming(true);
-        const res = await makeRequest('POST', api, { cart, trn, buyer: currentUser?.user_id, contact: userContact }, null, user);
-        if (res) {
-          notifySuccess('Order placed successfully');
-          setCart([]);
-          setConfirming(false);
+  
+      try {
+        const signature = await configureAndSendCurrentTransaction(transaction, connection, publicKey, signTransaction);
+  
+        if (signature) {
+          const trn = {
+            payer: currentUser?.user_id,
+            transaction_id: signature,
+            totalPaid: totalPriceInUSDC(cartTotalPrice),
+            type: "credit"
+          };
+          setConfirming(true);
+          const res = await makeRequest('POST', api, { cart, trn, buyer: currentUser?.user_id, contact: userContact }, null, user);
+          if (res) {
+            await getOrders();
+            setCart([]);
+            setConfirming(false);
+            setOt(false);
+            navigate('/profile/orders?p=my-orders');
+            notifySuccess('Order placed successfully');
+          }
+        }
+      } catch (error) {
+        // Handle SendTransactionError and fetch logs if available
+        if (error instanceof SendTransactionError) {
+          console.error('Transaction Error:', error);
+          const logs = error.logs || [];
+          console.error('Transaction Logs:', logs.join('\n'));
+  
+          notifyError(`Transaction failed. Logs: ${logs.join(', ')}`);
+        } else {
+          notifyError(`Payment Error: ${error}`);
+          console.log(error);
         }
       }
     } catch (error) {
       notifyError(`Payment Error: ${error}`);
+      console.log(error);
     } finally {
       setIsSending(false); // Reset after completion
     }
   };
+  
 
   return (
-    <>
-      {buyUsdc && <Exchange setBuyUsdc={setBuyUsdc} noUsdc={true} />}
 
+    <>
+    {buyUsdc && <Exchange setBuyUsdc = {setBuyUsdc} />}
       {confirming && (
         <div className='my-modal bg-blur'>
           <div className='my-col-6 off-2 down-15'>
@@ -192,10 +222,10 @@ const SendSolanaSplTokens = ({ priceInUsdc }: any) => {
 
       <button
         className='pd-10 flex px18 bg-color-code-3 color-code-1 ubuntuBold rad-10'
-        onClick={handlePayment}
+        onClick={!userContact?.phone ? ()=> {setOt(true)} : handlePayment}
         disabled={isSending} // Disable during transaction
       >
-        {isSending ? 'Processing...' : 'Pay With Connected Wallet'}
+        {isSending ? 'Processing...' : 'Pay Now'}
       </button>
     </>
   );
