@@ -131,7 +131,7 @@ const ViewItem = () => {
                                   ? "bd-bottom-bold-2 ubuntuBold color-code-1"
                                   : ""
                               }`}
-                            >
+                              >
                               {x.name}
                             </span>
                             {selectedVariationIndex === index && (
